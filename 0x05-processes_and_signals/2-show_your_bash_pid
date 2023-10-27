@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Processes contain bash
+ps -auxf | grep bash
