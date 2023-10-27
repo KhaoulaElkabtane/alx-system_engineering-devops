@@ -1,41 +1,43 @@
-#!/usr/bin/env bash
-# Write Bash (init) script 101-manage_my_process that manages manage_my_process. (both files need to be pushed to git)
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
-# Requirements:
+/**
+ * infinite_while - creat an infinite loop
+ * Return: always 0
+*/
+int infinite_while(void)
+{
+	while (1)
+	{
+		sleep(1);
+	}
+	return (0);
+}
 
-# When passing the argument start:
-# Starts manage_my_process
-# Creates a file containing its PID in /var/run/my_process.pid
-# Displays manage_my_process started
-# When passing the argument stop:
-# Stops manage_my_process
-# Deletes the file /var/run/my_process.pid
-# Displays manage_my_process stopped
-# When passing the argument restart
-# Stops manage_my_process
-# Deletes the file /var/run/my_process.pid
-# Starts manage_my_process
-# Creates a file containing its PID in /var/run/my_process.pid
-# Displays manage_my_process restarted
-# Displays Usage: manage_my_process {start|stop|restart} if any other argument or no argument is passed
+/**
+ * main - creat 5 five zombie process
+ * Return: 0
+*/
+int main(void)
+{
+	pid_t pid;
+	int count = 0;
 
-if [ "$1" == "start" ]
-then
-    ./manage_my_process &
-    echo $! > /var/run/my_process.pid
-    echo "manage_my_process started"
-elif [ "$1" == "stop" ]
-then
-    kill "$(pgrep -f /manage_my_process)"
-    rm /var/run/my_process.pid
-    echo "manage_my_process stopped"
-elif [ "$1" == "restart" ]
-then
-    kill "$(pgrep -f /manage_my_process)"
-    rm /var/run/my_process.pid
-    ./manage_my_process &
-    echo $! > /var/run/my_process.pid
-    echo "manage_my_process restarted"
-else
-    echo "Usage: manage_my_process {start|stop|restart}"
-fi
+	while (count < 5)
+	{
+		pid = fork();
+		if (pid > 0)
+		{
+			printf("Zombie process created, PID: %d\n", pid);
+			sleep(1);
+			count++;
+		}
+		else
+			exit(0);
+	}
+	infinite_while();
+	return (0);
+}
