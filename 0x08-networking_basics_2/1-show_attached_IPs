@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
+# Fetch network interface information using 'ifconfig',
+# search for lines containing IPv4 addresses using 'grep',
+# and extract the addresses with 'cut'.
+
 
 ifconfig | grep -Eo "inet (addr:)?([0-9]*\.){3}[0-9]*" | cut -b 11-
